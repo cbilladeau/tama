@@ -6,6 +6,41 @@ __lua__
 -- https://cbilladeau.github.io/tama
 -->8
 -- the loop
+-- function _init()
+-- 	game_init(x) -- menu,play,gameover
+-- 	tama_init(x) -- egg,baby,teen,adult,dead
+-- end
+
+-- if game_init(0) then -- menu
+-- 	menu_init()
+-- else if game_init(1) then
+-- 	play_init()
+-- else
+-- 	gameover_init()
+-- end
+
+-- if tama_init(0) then
+-- 	egg_init()
+-- else if tama_init(1) then
+-- 	baby_init()
+-- else if tama_init(2) then
+-- 	teen_init()
+-- else if tama_init(3) then
+-- 	adult_init()
+-- else
+-- 	dead_init()
+-- end
+
+-- function _update()
+-- 	game_update(x) -- gui,stats,actions
+-- 	tama_update(x) -- tama obj
+-- end
+
+-- function _draw()
+-- 	gane_draw(x)
+-- 	tama_draw(x) --x for state
+-- end
+
 function _init()
 	tama_init()
 	ui_init()
@@ -70,6 +105,7 @@ function tama_init()
 	tama={}
 	tama.sprt=1
 	tama.tmr=0
+	tama.state=0 -- 0=egg,1=baby,2=teen,3=adult
 	tama.dead=false
 end
 
@@ -89,8 +125,8 @@ end
 function tama_draw()
 	if not tama.dead then
 		spr(tama.sprt,64,64)
-	-- else
-	-- 	state_dead()
+	else
+		tama.dead=true
 	end
 end
 -->8
@@ -98,7 +134,7 @@ end
 function ui_init()
 	ui={}
 	ui.y=0
-	ui.dy=7
+	ui.dy=8
 end
 
 function stats_init()
@@ -110,7 +146,7 @@ function stats_init()
 end
 
 function ui_update()
-	if btnp(3) and ui.y<14 then
+	if btnp(3) and ui.y<16 then
 		ui.y+=ui.dy
 	end
 	if btnp(2) and ui.y>0 then
@@ -119,10 +155,10 @@ function ui_update()
 	if btnp(4) and ui.y==0 then
 		food.doing=true
 	end
-	if btnp(4) and ui.y==7 then
+	if btnp(4) and ui.y==8 then
 		wash.doing=true
 	end
-	if btnp(4) and ui.y==14 then
+	if btnp(4) and ui.y==16 then
 		play.doing=true
 	end
 end
@@ -152,9 +188,9 @@ function stats_update()
 end
 
 function ui_draw()
-	print('food',7,0,7)
-	print('wash',7,7,7)
-	print('play',7,14,7)
+	print('food',8,0,7)
+	print('wash',8,8,7)
+	print('play',8,16,7)
 	print('>',0,ui.y,7)
 end
 
